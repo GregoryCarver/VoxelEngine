@@ -7,22 +7,27 @@
 
 #include "Shaders/Functions/loadShader.h"
 #include "Libraries/stb_image.h"
+#include "Camera.h"
+#include "Input/Input.h"
+#include "Rendering/Block.h"
+
+//Function used to resize the window appropriately.
+void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
+inline void Mouse(GLFWwindow* window, double xPos, double yPos);
+
+//Global screen settings.
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+//Global camera variables.
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+//Global timing variables.
+float deltaTime = 0.0f;         //Time difference of current frame and last frame.
+float lastTime = 0.0f;         //Keeps track of the time of the last frame. Used to calculate deltaTime.
 
 int main(void)
 {
-    //////TEXTURE TEST
-    /*int width, height, nrChannels;
-    unsigned char* data = stbi_load("Assets/Textures/TestTexture.png", &width, &height, &nrChannels, 0);
-
-    unsigned int texture;
-    glGenTextures(1, &texture);
-
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);*/
-
-    //////TEST END
-
     /* Initialize the library */
     if (!glfwInit())
     {
@@ -53,6 +58,10 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    //Added code
+    glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
+    glfwSetCursorPosCallback(window, Mouse);
+
     //Tells GLFW to capture our mouse.
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -66,27 +75,135 @@ int main(void)
     glEnable(GL_CULL_FACE);
 
     //Compile and load shaders and store the program id
-    GLuint programID = LoadShaders("Shaders/Vertex/SimpleVertexShader.vert", "Shaders/Fragment/SimpleFragmentShader.frag");
+    GLuint programID = LoadShaders("Shaders/Vertex/CameraShader.vert", "Shaders/Fragment/SimpleFragmentShader.frag");
 
     //Prints the GLEW and openGL versions
     std::cout << "Using GLEW version :" << glewGetString(GLEW_VERSION) << std::endl;
     std::cout << "Using openGL version: " << glGetString(GL_VERSION) << std::endl;
 
     GLfloat triangleBuffer[] =
-    {
-        -1.0f, -1.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,
-         0.0f,  1.0f, 0.0f
+    {   //Positions            //Texture
+         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+          0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+          0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+          0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+          0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+          0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+          0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
-    unsigned int VAO, VBO;
+
+    Block cube(BlockShapeIndex::Cube);
+
+    GLfloat textureBuffer[] =
+    {
+        //Texture
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f
+    };
+
+    std::vector<float> allFaces;
+    allFaces.reserve(cube.GetBlockShape().GetBackFace().size() * 6);
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetFrontFace().begin(), cube.GetBlockShape().GetFrontFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetLeftFace().begin(), cube.GetBlockShape().GetLeftFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBackFace().begin(), cube.GetBlockShape().GetBackFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetRightFace().begin(), cube.GetBlockShape().GetRightFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetTopFace().begin(), cube.GetBlockShape().GetTopFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBottomFace().begin(), cube.GetBlockShape().GetBottomFace().end());
+    
+
+    GLfloat testBuffer[108];
+    for (int i = 0; i < 108; i++)
+    {
+        testBuffer[i] = allFaces[i];
+    }
+
+    unsigned int VAO, VBO, VBO2;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleBuffer), triangleBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(testBuffer), testBuffer, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
-
+    glGenBuffers(1, &VBO2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(textureBuffer), textureBuffer, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
+    glEnableVertexAttribArray(1);
+    
     int width, height, nrChannels;
     unsigned char* data = stbi_load("Assets/Textures/TestTexture.png", &width, &height, &nrChannels, 0);
     if (!data)
@@ -98,8 +215,10 @@ int main(void)
 
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glGenerateMipmap(GL_TEXTURE_2D);
 
+    delete data;
 
     double previousFPSTime = glfwGetTime();
     int frameCount = 0;
@@ -109,7 +228,7 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         //Get the time variables and display fps
-        /*float currentTime = glfwGetTime();
+        float currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
         frameCount++;
@@ -118,10 +237,10 @@ int main(void)
             std::cout << "FPS: " << frameCount << "\r";
             frameCount = 0;
             previousFPSTime = currentTime;
-        }*/
+        }
 
         //Input
-        //ProcessInput(window, camera, deltaTime);
+        ProcessInput(window, camera, deltaTime);
 
    
         /* Render here */
@@ -134,19 +253,23 @@ int main(void)
         
 
         //Pass the projection matrix to shader ( in this case could change every frame )
-        //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        //glUniformMatrix4fv(glGetUniformLocation(programID, "projection"), 1, GL_FALSE, &projection[0][0]);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glUniformMatrix4fv(glGetUniformLocation(programID, "projection"), 1, GL_FALSE, &projection[0][0]);
 
-        ////Camera/view transformation.
-        //glm::mat4 view = camera.GetViewMatrix();
-        //glUniformMatrix4fv(glGetUniformLocation(programID, "view"), 1, GL_FALSE, &view[0][0]);
+        //Camera view transformation.
+        glm::mat4 view = camera.GetViewMatrix();
+        glUniformMatrix4fv(glGetUniformLocation(programID, "view"), 1, GL_FALSE, &view[0][0]);
+
+        //Camera view transformation.
+        glm::mat4 model = glm::mat4(1.0f);
+        glUniformMatrix4fv(glGetUniformLocation(programID, "model"), 1, GL_FALSE, &model[0][0]);
 
         //glBindVertexArray(cube.GetVAO());
         //glDrawArraysInstanced(GL_TRIANGLES, 0, 36, cubeGridXCoord * cubeGridYCoord * cubeGridZCoord);
         //glBindVertexArray(0);
 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         //Added code end
 
@@ -160,4 +283,16 @@ int main(void)
     glDisableVertexAttribArray(0);
     glfwTerminate();
     return 0;
+}
+
+//Updates window when changed by OS or user. 
+void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+    //Make sure the viewport matches the new window dimensions.
+    glViewport(0, 0, width, height);
+}
+
+inline void Mouse(GLFWwindow* window, double xPos, double yPos)
+{
+    MouseCallback(window, xPos, yPos, camera);
 }

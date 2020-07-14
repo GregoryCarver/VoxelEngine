@@ -1,10 +1,21 @@
 #pragma once
 #include <vector>
-#include "BlockType.h"
+#include "BlockShapes.h"
+
+enum BlockIndex
+{
+	Dirt = 0
+};
 
 class Block
 {
 private:
-	BlockType type;
-	std::vector<float> frontFace;
+	BlockShapeIndex shape;
+	bool isTransparent;
+
+public:
+	static const Block blocks[1];
+	Block(BlockShapeIndex shape);
+	const BlockShape& GetBlockShape();
+	bool GetTransparency();
 };

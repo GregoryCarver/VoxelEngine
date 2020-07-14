@@ -148,17 +148,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Libraries\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Rendering\BlockType.cpp" />
-    <ClCompile Include="Rendering\BlockTypes.cpp" />
+    <ClCompile Include="Rendering\Block.cpp" />
+    <ClCompile Include="Rendering\BlockShape.cpp" />
+    <ClCompile Include="Rendering\BlockShapes.cpp" />
+    <ClCompile Include="Rendering\Chunk.cpp" />
     <ClCompile Include="Shaders\Functions\loadShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Libraries\stb_image.h" />
     <ClInclude Include="Rendering\Block.h" />
-    <ClInclude Include="Rendering\BlockType.h" />
-    <ClInclude Include="Rendering\BlockTypes.h" />
+    <ClInclude Include="Rendering\BlockShape.h" />
+    <ClInclude Include="Rendering\BlockShapes.h" />
     <ClInclude Include="Rendering\Chunk.h" />
     <ClInclude Include="Shaders\Functions\loadShader.h" />
   </ItemGroup>
