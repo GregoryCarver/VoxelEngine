@@ -1,8 +1,9 @@
 #include "Block.h"
 
-Block::Block(BlockShapeIndex shape)
+Block::Block(BlockShapeIndex shape, bool isTransparent)
 {
 	this->shape = shape;
+	this->isTransparent = isTransparent;
 }
 
 const BlockShape& Block::GetBlockShape()
@@ -12,10 +13,11 @@ const BlockShape& Block::GetBlockShape()
 
 const Block blocks[] =
 {
-	Block(BlockShapeIndex::Cube)
+	//Dirt
+	Block(BlockShapeIndex::Cube, false),
 };
 
-bool Block::GetTransparency()
+const bool Block::GetTransparency()
 {
 	return isTransparent;
 }

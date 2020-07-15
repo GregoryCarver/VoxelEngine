@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Input/Input.h"
 #include "Rendering/Block.h"
+#include "Rendering/Chunk.h"
 
 //Function used to resize the window appropriately.
 void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -24,7 +25,7 @@ Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 //Global timing variables.
 float deltaTime = 0.0f;         //Time difference of current frame and last frame.
-float lastTime = 0.0f;         //Keeps track of the time of the last frame. Used to calculate deltaTime.
+float lastTime = 0.0f;          //Keeps track of the time of the last frame. Used to calculate deltaTime.
 
 int main(void)
 {
@@ -126,7 +127,10 @@ int main(void)
          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    Block cube(BlockShapeIndex::Cube);
+    ///////TESTING
+    Block cube(BlockShapeIndex::Cube, false);
+    Chunk testChunk;
+    testChunk.GenerateTestChunk;
 
     GLfloat textureBuffer[] =
     {
@@ -189,6 +193,7 @@ int main(void)
     {
         testBuffer[i] = allFaces[i];
     }
+    ///////END
 
     unsigned int VAO, VBO, VBO2;
     glGenVertexArrays(1, &VAO);
