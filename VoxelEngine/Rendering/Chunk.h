@@ -5,8 +5,9 @@ class Chunk
 {
 	static const char chunkDimension = 32;
 	unsigned int chunkBlocks[chunkDimension][chunkDimension][chunkDimension];
+	std::vector<float> chunkMesh;
 
 public:
-	float*** BuildChunkMesh();
+	void BuildChunkMesh();
 	void GenerateTestChunk();
 };

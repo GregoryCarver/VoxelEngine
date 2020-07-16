@@ -130,7 +130,7 @@ int main(void)
     ///////TESTING
     Block cube(BlockShapeIndex::Cube, false);
     Chunk testChunk;
-    testChunk.GenerateTestChunk;
+    testChunk.GenerateTestChunk();
 
     GLfloat textureBuffer[] =
     {
@@ -186,7 +186,6 @@ int main(void)
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetRightFace().begin(), cube.GetBlockShape().GetRightFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetTopFace().begin(), cube.GetBlockShape().GetTopFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBottomFace().begin(), cube.GetBlockShape().GetBottomFace().end());
-    
 
     GLfloat testBuffer[108];
     for (int i = 0; i < 108; i++)
@@ -200,7 +199,7 @@ int main(void)
     glBindVertexArray(VAO);
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(testBuffer), testBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, allFaces.size() * sizeof(float), &allFaces[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
     glGenBuffers(1, &VBO2);

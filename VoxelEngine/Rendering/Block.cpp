@@ -6,7 +6,7 @@ Block::Block(BlockShapeIndex shape, bool isTransparent)
 	this->isTransparent = isTransparent;
 }
 
-const BlockShape& Block::GetBlockShape()
+const BlockShape& Block::GetBlockShape() const
 {
 	return BlockShapes::shapes[shape];
 }
@@ -17,7 +17,7 @@ const Block blocks[] =
 	Block(BlockShapeIndex::Cube, false),
 };
 
-const bool Block::GetTransparency()
+const bool Block::GetTransparency() const
 {
 	return isTransparent;
 }

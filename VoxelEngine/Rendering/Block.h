@@ -16,6 +16,6 @@ private:
 public:
 	static const Block blocks[1];
 	Block(BlockShapeIndex shape, bool isTransparent);
-	const BlockShape& GetBlockShape();
-	const bool GetTransparency();
+	const BlockShape& GetBlockShape() const;
+	const bool GetTransparency() const;
 };
