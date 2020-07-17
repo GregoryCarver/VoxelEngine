@@ -9,7 +9,7 @@
 #include "Libraries/stb_image.h"
 #include "Camera.h"
 #include "Input/Input.h"
-#include "Rendering/Block.h"
+//#include "Rendering/Block.h"
 #include "Rendering/Chunk.h"
 
 //Function used to resize the window appropriately.
@@ -128,9 +128,15 @@ int main(void)
     };
 
     ///////TESTING
-    Block cube(BlockShapeIndex::Cube, false);
+    //Block cube(BlockShapeIndex::Cube, false);
     Chunk testChunk;
     testChunk.GenerateTestChunk();
+    testChunk.BuildChunkMesh();
+    /*for (int i = 0; i < testChunk.GetChunkMesh().size();)
+    {
+        std::cout << testChunk.GetChunkMesh()[i++] << " " << testChunk.GetChunkMesh()[i++] << " " << testChunk.GetChunkMesh()[i++] << std::endl;
+    }
+    return 0;*/
 
     GLfloat textureBuffer[] =
     {
@@ -177,21 +183,25 @@ int main(void)
         1.0f, 0.0f,
         1.0f, 1.0f
     };
-
-    std::vector<float> allFaces;
+    int size = 72 * testChunk.GetChunkMesh().size() / 18 / 6;
+    float* newTex =  new float[size];
+    
+    for (int i = 0; i < size;)
+    {
+        for (int j = 0; j < 72; j++)
+        {
+            newTex[i++] = textureBuffer[j];
+        }
+    }
+    /*std::vector<float> allFaces;
     allFaces.reserve(cube.GetBlockShape().GetBackFace().size() * 6);
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetFrontFace().begin(), cube.GetBlockShape().GetFrontFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetLeftFace().begin(), cube.GetBlockShape().GetLeftFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBackFace().begin(), cube.GetBlockShape().GetBackFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetRightFace().begin(), cube.GetBlockShape().GetRightFace().end());
     allFaces.insert(allFaces.end(), cube.GetBlockShape().GetTopFace().begin(), cube.GetBlockShape().GetTopFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBottomFace().begin(), cube.GetBlockShape().GetBottomFace().end());
+    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBottomFace().begin(), cube.GetBlockShape().GetBottomFace().end());*/
 
-    GLfloat testBuffer[108];
-    for (int i = 0; i < 108; i++)
-    {
-        testBuffer[i] = allFaces[i];
-    }
     ///////END
 
     unsigned int VAO, VBO, VBO2;
@@ -199,12 +209,12 @@ int main(void)
     glBindVertexArray(VAO);
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, allFaces.size() * sizeof(float), &allFaces[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, testChunk.GetChunkMesh().size() * sizeof(float), &testChunk.GetChunkMesh()[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
     glGenBuffers(1, &VBO2);
     glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(textureBuffer), textureBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(1);
     
@@ -273,7 +283,7 @@ int main(void)
         //glBindVertexArray(0);
 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, size * 36);
 
         //Added code end
 

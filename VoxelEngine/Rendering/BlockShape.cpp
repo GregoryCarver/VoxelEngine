@@ -14,7 +14,6 @@ const std::vector<float>& BlockShape::GetFrontFace() const
 {
 	return posZFace;
 }
-
 const std::vector<float>& BlockShape::GetLeftFace() const
 {
 	return negXFace;

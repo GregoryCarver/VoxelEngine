@@ -8,6 +8,7 @@ class Chunk
 	std::vector<float> chunkMesh;
 
 public:
+	std::vector<float>& GetChunkMesh();
 	void BuildChunkMesh();
 	void GenerateTestChunk();
 };
