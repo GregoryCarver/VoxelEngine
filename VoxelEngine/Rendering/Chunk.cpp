@@ -9,13 +9,13 @@ std::vector<float>& Chunk::GetChunkMesh()
 //Need to add in calculating vertex position considering chunk position.
 void Chunk::BuildChunkMesh()
 {
-	for (int i = 0; i < chunkDimension - 1; i++)
+	for (int i = 0; i < chunkDimension; i++)
 	{
-		for (int j = 0; j < chunkDimension - 1; j++)
+		for (int j = 0; j < chunkDimension; j++)
 		{
-			for (int k = 0; k < chunkDimension - 1; k++)
+			for (int k = 0; k < chunkDimension; k++)
 			{
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i][j][k - 1]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k - 1]].GetTransparency())
 				{
 					for (int frontIndex = 0; frontIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace().size();)
 					{
@@ -24,7 +24,7 @@ void Chunk::BuildChunkMesh()
 						chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++] + k);
 					}
 				}
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i - 1][j][k]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i - 1][j][k]].GetTransparency())
 				{
 					for (int leftIndex = 0; leftIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace().size();)
 					{
@@ -33,7 +33,7 @@ void Chunk::BuildChunkMesh()
 						chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++] + k);
 					}
 				}
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i][j][k + 1]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k + 1]].GetTransparency())
 				{
 					for (int backIndex = 0; backIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace().size();)
 					{
@@ -42,7 +42,7 @@ void Chunk::BuildChunkMesh()
 						chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++] + k);
 					}
 				}
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i + 1][j][k]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i + 1][j][k]].GetTransparency())
 				{
 					for (int rightIndex = 0; rightIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace().size();)
 					{
@@ -51,7 +51,7 @@ void Chunk::BuildChunkMesh()
 						chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++] + k);
 					}
 				}
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i][j + 1][k]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j + 1][k]].GetTransparency())
 				{
 					for (int topIndex = 0; topIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace().size();)
 					{
@@ -60,7 +60,7 @@ void Chunk::BuildChunkMesh()
 						chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++] + k);
 					}
 				}
-				if (i == 0 || j == 0 || k == 0 || Block::blocks[chunkBlocks[i][j - 1][k]].GetTransparency())
+				if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j - 1][k]].GetTransparency())
 				{
 					for (int bottomIndex = 0; bottomIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace().size();)
 					{

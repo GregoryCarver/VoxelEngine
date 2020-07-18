@@ -238,6 +238,7 @@ int main(void)
     int frameCount = 0;
     bool isSorted = false;
 
+    glUseProgram(programID);
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -263,7 +264,6 @@ int main(void)
 
 
         //Added code
-        glUseProgram(programID);
         
 
         //Pass the projection matrix to shader ( in this case could change every frame )
@@ -281,9 +281,9 @@ int main(void)
         //glBindVertexArray(cube.GetVAO());
         //glDrawArraysInstanced(GL_TRIANGLES, 0, 36, cubeGridXCoord * cubeGridYCoord * cubeGridZCoord);
         //glBindVertexArray(0);
-
+        
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, size * 36);
+        glDrawArrays(GL_TRIANGLES, 0, size);
 
         //Added code end
 
