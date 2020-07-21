@@ -82,61 +82,11 @@ int main(void)
     std::cout << "Using GLEW version :" << glewGetString(GLEW_VERSION) << std::endl;
     std::cout << "Using openGL version: " << glGetString(GL_VERSION) << std::endl;
 
-    GLfloat triangleBuffer[] =
-    {   //Positions            //Texture
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-          0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-          0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-          0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-          0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-
     ///////TESTING
     //Block cube(BlockShapeIndex::Cube, false);
     Chunk testChunk;
     testChunk.GenerateTestChunk();
     testChunk.BuildChunkMesh();
-    /*for (int i = 0; i < testChunk.GetChunkMesh().size();)
-    {
-        std::cout << testChunk.GetChunkMesh()[i++] << " " << testChunk.GetChunkMesh()[i++] << " " << testChunk.GetChunkMesh()[i++] << std::endl;
-    }
-    return 0;*/
 
     GLfloat textureBuffer[] =
     {
@@ -214,7 +164,7 @@ int main(void)
     glEnableVertexAttribArray(0);
     glGenBuffers(1, &VBO2);
     glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(textureBuffer), textureBuffer, GL_STATIC_DRAW);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(1);
     
@@ -230,6 +180,9 @@ int main(void)
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     delete data;
@@ -257,7 +210,6 @@ int main(void)
         //Input
         ProcessInput(window, camera, deltaTime);
 
-   
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.5f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -282,8 +234,9 @@ int main(void)
         //glDrawArraysInstanced(GL_TRIANGLES, 0, 36, cubeGridXCoord * cubeGridYCoord * cubeGridZCoord);
         //glBindVertexArray(0);
         
+        //size / 2 because size is the number of floats there are for textures, and theres two floats per vertex
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, size);
+        glDrawArrays(GL_TRIANGLES, 0, size / 2);
 
         //Added code end
 
@@ -310,3 +263,4 @@ inline void Mouse(GLFWwindow* window, double xPos, double yPos)
 {
     MouseCallback(window, xPos, yPos, camera);
 }
+
