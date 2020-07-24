@@ -39,6 +39,24 @@
     <ClCompile Include="Rendering\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD_avx2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD_avx512.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD_internal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD_sse2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\FastNoise\FastNoiseSIMD_sse41.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\Functions\loadShader.h">
@@ -63,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\BlockShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\FastNoise\FastNoiseSIMD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\FastNoise\FastNoiseSIMD_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

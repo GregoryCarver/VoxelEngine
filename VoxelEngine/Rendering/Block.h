@@ -4,7 +4,8 @@
 
 enum BlockIndex
 {
-	Dirt = 0
+	TestTransparent = 0,
+	Dirt = 1
 };
 
 class Block
@@ -14,7 +15,7 @@ private:
 	bool isTransparent;
 
 public:
-	static const Block blocks[1];
+	static const Block blocks[2];
 	Block(BlockShapeIndex shape, bool isTransparent);
 	const BlockShape& GetBlockShape() const;
 	const bool GetTransparency() const;

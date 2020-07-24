@@ -11,4 +11,5 @@ public:
 	std::vector<float>& GetChunkMesh();
 	void BuildChunkMesh();
 	void GenerateTestChunk();
+	void GenerateRandomChunk();
 };

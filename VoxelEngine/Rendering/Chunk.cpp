@@ -1,5 +1,6 @@
-#include "Chunk.h"
 #include <iostream>
+#include "Chunk.h"
+#include "../Libraries/FastNoise/FastNoiseSIMD.h"
 
 std::vector<float>& Chunk::GetChunkMesh()
 {
@@ -84,6 +85,32 @@ void Chunk::GenerateTestChunk()
 			for (int k = 0; k < chunkDimension; k++)
 			{
 				chunkBlocks[i][j][k] = BlockIndex::Dirt;
+			}
+		}
+	}
+}
+
+void Chunk::GenerateRandomChunk()
+{
+	const char size = 32;
+	FastNoiseSIMD* myNoise = FastNoiseSIMD::NewFastNoiseSIMD();
+	float* noiseSet = myNoise->GetSimplexFractalSet(0, 0, 0, size, size, size);
+	int index = 0;
+
+	for (int x = 0; x < size; x++)
+	{
+		for (int y = 0; y < size; y++)
+		{
+			for (int z = 0; z < size; z++)
+			{
+				if (noiseSet[index++] > 0.1f)
+				{
+					chunkBlocks[x][y][z] = BlockIndex::Dirt;
+				}
+				else
+				{
+					chunkBlocks[x][y][z] = BlockIndex::TestTransparent;
+				}
 			}
 		}
 	}

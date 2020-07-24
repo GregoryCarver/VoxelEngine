@@ -14,6 +14,7 @@ const BlockShape& Block::GetBlockShape() const
 const Block Block::blocks[] =
 {
 	//Dirt
+	Block(BlockShapeIndex::Cube, true),
 	Block(BlockShapeIndex::Cube, false)
 };
 

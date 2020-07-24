@@ -85,7 +85,8 @@ int main(void)
     ///////TESTING
     //Block cube(BlockShapeIndex::Cube, false);
     Chunk testChunk;
-    testChunk.GenerateTestChunk();
+    //testChunk.GenerateTestChunk();
+    testChunk.GenerateRandomChunk();
     testChunk.BuildChunkMesh();
 
     GLfloat textureBuffer[] =
@@ -164,7 +165,7 @@ int main(void)
     glEnableVertexAttribArray(0);
     glGenBuffers(1, &VBO2);
     glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(textureBuffer), textureBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(1);
     
