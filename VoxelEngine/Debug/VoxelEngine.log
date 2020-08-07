@@ -1,10 +1,10 @@
 ﻿  Chunk.cpp
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(21,42): warning C4018: '<': signed/unsigned mismatch
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(30,40): warning C4018: '<': signed/unsigned mismatch
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(39,40): warning C4018: '<': signed/unsigned mismatch
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(48,42): warning C4018: '<': signed/unsigned mismatch
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(57,38): warning C4018: '<': signed/unsigned mismatch
-C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(66,44): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(41,43): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(50,41): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(59,41): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(68,43): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(77,39): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(86,45): warning C4018: '<': signed/unsigned mismatch
   Input.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library

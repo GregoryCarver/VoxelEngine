@@ -1,3 +1,5 @@
+//WORKING ON LOADING MULTIPLE CHUNKS
+
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
@@ -44,9 +46,9 @@ int main(void)
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     /*       OpenGLtutorials.org tutorial end       */
 
+    /* Create a windowed mode window and its OpenGL context */
     GLFWwindow* window;
 
-    /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(1280, 1024, "Window of the Gods!", NULL, NULL);
 
     if (!window)
@@ -74,6 +76,7 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //Compile and load shaders and store the program id
     GLuint programID = LoadShaders("Shaders/Vertex/CameraShader.vert", "Shaders/Fragment/SimpleFragmentShader.frag");
@@ -173,7 +176,7 @@ int main(void)
     unsigned char* data = stbi_load("Assets/Textures/TestTexture.png", &width, &height, &nrChannels, 0);
     if (!data)
     {
-        std::cout << "WHY!?" << std::endl;
+        std::cout << "Texture not loaded!" << std::endl;
     }
     unsigned int texture;
     glGenTextures(1, &texture);

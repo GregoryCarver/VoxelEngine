@@ -14,9 +14,9 @@ void MouseCallback(GLFWwindow* window, double xPos, double yPos, Camera& camera)
 {
     if (firstMouse)
     {
-        lastX = xPos;
-        lastY = yPos;
-        firstMouse = false;
+        lastX       = xPos;
+        lastY       = yPos;
+        firstMouse  = false;
     }
 
     float xOffset = xPos - lastX;

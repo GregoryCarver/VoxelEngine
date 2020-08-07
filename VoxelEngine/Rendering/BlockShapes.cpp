@@ -2,7 +2,8 @@
 
 const BlockShape BlockShapes::shapes[] = 
 	{
-		BlockShape(
+		BlockShape
+		(
 			//Front Face
 			{
 				 0.0f,  0.0f,  0.0f,
@@ -57,5 +58,5 @@ const BlockShape BlockShapes::shapes[] =
 				 0.0f,  0.0f,  0.0f,
 				 0.0f,  0.0f, -1.0f
 			}
-			)
+		)
 	};
