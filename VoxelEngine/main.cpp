@@ -87,10 +87,21 @@ int main(void)
 
     ///////TESTING
     //Block cube(BlockShapeIndex::Cube, false);
-    Chunk testChunk;
+    //Chunk testChunk;
     //testChunk.GenerateTestChunk();
-    testChunk.GenerateRandomChunk();
-    testChunk.BuildChunkMesh();
+    for (int x = 0; x < Chunk::renderDistance; x++)
+    {
+        for (int y = 0; y < Chunk::renderDistance; y++)
+        {
+            for (int z = 0; z < Chunk::renderDistance; z++)
+            {
+                Chunk::loadedChunks[x][y][z].GenerateRandomChunk(x, y, z);
+                Chunk::loadedChunks[x][y][z].BuildChunkMesh();
+            }
+        }
+    }
+    
+    //testChunk.BuildChunkMesh();
 
     GLfloat textureBuffer[] =
     {
@@ -137,7 +148,7 @@ int main(void)
         1.0f, 0.0f,
         1.0f, 1.0f
     };
-    int size = 72 * testChunk.GetChunkMesh().size() / 18 / 6;
+    int size = 72 * Chunk::loadedChunks[1][2][1].GetChunkMesh().size() / 18 / 6;
     float* newTex =  new float[size];
     
     for (int i = 0; i < size;)
@@ -163,7 +174,7 @@ int main(void)
     glBindVertexArray(VAO);
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, testChunk.GetChunkMesh().size() * sizeof(float), &testChunk.GetChunkMesh()[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, Chunk::loadedChunks[1][2][1].GetChunkMesh().size() * sizeof(float), &Chunk::loadedChunks[1][2][1].GetChunkMesh()[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
     glGenBuffers(1, &VBO2);

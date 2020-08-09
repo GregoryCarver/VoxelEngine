@@ -123,10 +123,11 @@ void Chunk::GenerateTestChunk()
 }
 
 //Tests noise generated chunk.
-void Chunk::GenerateRandomChunk()
+void Chunk::GenerateRandomChunk(int chunkX, int chunkY, int chunkZ)
 {
 	FastNoiseSIMD* myNoise = FastNoiseSIMD::NewFastNoiseSIMD();
-	float* noiseSet = myNoise->GetSimplexFractalSet(0, 0, 0, chunkDimension, chunkDimension, chunkDimension);
+	float* noiseSet = myNoise->GetSimplexFractalSet(chunkDimension * chunkX, chunkDimension * chunkY, chunkDimension * chunkZ, 
+													chunkDimension * chunkX + chunkDimension, chunkDimension * chunkY + chunkDimension, chunkDimension * chunkZ + chunkDimension);
 	int index = 0;
 	for (int x = 0; x < chunkDimension; x++)
 	{
