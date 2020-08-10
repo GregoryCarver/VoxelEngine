@@ -87,11 +87,11 @@ int main(void)
 
     ///////TESTING
     //Block cube(BlockShapeIndex::Cube, false);
-    //Chunk testChunk;
+    //Chunk testChunk = Chunk();
     //testChunk.GenerateTestChunk();
     for (int x = 0; x < Chunk::renderDistance; x++)
     {
-        for (int y = 0; y < Chunk::renderDistance; y++)
+       for (int y = 0; y < Chunk::renderDistance; y++)
         {
             for (int z = 0; z < Chunk::renderDistance; z++)
             {
@@ -99,90 +99,25 @@ int main(void)
                 Chunk::loadedChunks[x][y][z].BuildChunkMesh();
             }
         }
-    }
+    } 
     
-    //testChunk.BuildChunkMesh();
-
-    GLfloat textureBuffer[] =
-    {
-        //Texture
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f
-    };
-    int size = 72 * Chunk::loadedChunks[1][2][1].GetChunkMesh().size() / 18 / 6;
-    float* newTex =  new float[size];
+    int size = Chunk::loadedChunks[1][1][1].GetChunkMesh().size() / 5;
     
-    for (int i = 0; i < size;)
-    {
-        for (int j = 0; j < 72; j++)
-        {
-            newTex[i++] = textureBuffer[j];
-        }
-    }
-    /*std::vector<float> allFaces;
-    allFaces.reserve(cube.GetBlockShape().GetBackFace().size() * 6);
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetFrontFace().begin(), cube.GetBlockShape().GetFrontFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetLeftFace().begin(), cube.GetBlockShape().GetLeftFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBackFace().begin(), cube.GetBlockShape().GetBackFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetRightFace().begin(), cube.GetBlockShape().GetRightFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetTopFace().begin(), cube.GetBlockShape().GetTopFace().end());
-    allFaces.insert(allFaces.end(), cube.GetBlockShape().GetBottomFace().begin(), cube.GetBlockShape().GetBottomFace().end());*/
-
-    ///////END
-
     unsigned int VAO, VBO, VBO2;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, Chunk::loadedChunks[1][2][1].GetChunkMesh().size() * sizeof(float), &Chunk::loadedChunks[1][2][1].GetChunkMesh()[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, Chunk::loadedChunks[1][1][1].GetChunkMesh().size() * sizeof(float), &Chunk::loadedChunks[1][1][1].GetChunkMesh()[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glGenBuffers(1, &VBO2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
+    /*glGenBuffers(1, &VBO2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);*/
+    //glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
     
+
     int width, height, nrChannels;
     unsigned char* data = stbi_load("Assets/Textures/TestTexture.png", &width, &height, &nrChannels, 0);
     if (!data)
@@ -201,6 +136,7 @@ int main(void)
     glGenerateMipmap(GL_TEXTURE_2D);
 
     delete data;
+
 
     double previousFPSTime = glfwGetTime();
     int frameCount = 0;
@@ -251,7 +187,7 @@ int main(void)
         
         //size / 2 because size is the number of floats there are for textures, and theres two floats per vertex
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, size / 2);
+        glDrawArrays(GL_TRIANGLES, 0, size/* / 2*/);
 
         //Added code end
 

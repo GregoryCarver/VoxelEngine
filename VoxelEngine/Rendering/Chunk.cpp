@@ -4,21 +4,10 @@
 
 Chunk Chunk::loadedChunks[Chunk::renderDistance][Chunk::renderDistance][Chunk::renderDistance];
 
-//Chunk::Chunk(int x, int y, int z)
-//{
-//	//chunks[{x, y, z}] = *this;
-//	//currentChunk = chunks[Position(0, 0, 0)];
-//	for (int i = 0; i < renderDistance; i++)
-//	{
-//		for (int j = 0; j < renderDistance; j++)
-//		{
-//			for (int k = 0; k < renderDistance; k++)
-//			{
-//				//loadedChunks[i][j][k] = Chunk(0,0,0);
-//			}
-//		}
-//	}
-//}
+Chunk::Chunk()
+{
+	
+}
 
 std::vector<float>& Chunk::GetChunkMesh()
 {
@@ -36,13 +25,15 @@ void Chunk::BuildChunkMesh()
 			{
 				if (chunkBlocks[i][j][k] != BlockIndex::TestTransparent)
 				{
-					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k - 1]].GetTransparency())
+					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k + 1]].GetTransparency())
 					{
 						for (int frontIndex = 0; frontIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace().size();)
 						{
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetFrontFace()[frontIndex++]);
 						}
 					}
 					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i - 1][j][k]].GetTransparency())
@@ -52,15 +43,19 @@ void Chunk::BuildChunkMesh()
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetLeftFace()[leftIndex++]);
 						}
 					}
-					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k + 1]].GetTransparency())
+					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k - 1]].GetTransparency())
 					{
 						for (int backIndex = 0; backIndex < Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace().size();)
 						{
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBackFace()[backIndex++]);
 						}
 					}
 					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i + 1][j][k]].GetTransparency())
@@ -70,6 +65,9 @@ void Chunk::BuildChunkMesh()
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetRightFace()[rightIndex++]);
+
 						}
 					}
 					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j + 1][k]].GetTransparency())
@@ -79,6 +77,8 @@ void Chunk::BuildChunkMesh()
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetTopFace()[topIndex++]);
 						}
 					}
 					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j - 1][k]].GetTransparency())
@@ -88,6 +88,8 @@ void Chunk::BuildChunkMesh()
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace()[bottomIndex++] + i);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace()[bottomIndex++] + j);
 							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace()[bottomIndex++] + k);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace()[bottomIndex++]);
+							chunkMesh.push_back(Block::blocks[chunkBlocks[i][j][k]].GetBlockShape().GetBottomFace()[bottomIndex++]);
 						}
 					}
 				}
@@ -135,7 +137,7 @@ void Chunk::GenerateRandomChunk(int chunkX, int chunkY, int chunkZ)
 		{
 			for (int z = 0; z < chunkDimension; z++)
 			{
-				if (noiseSet[index++] > 0.05f)
+				if (noiseSet[index++] < 0.05f)
 				{
 					chunkBlocks[x][y][z] = BlockIndex::Dirt;
 				}

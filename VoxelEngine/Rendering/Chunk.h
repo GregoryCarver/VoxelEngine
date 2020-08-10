@@ -10,14 +10,13 @@ class Chunk
 	//Mesh constructed from the blocks after face culling.:::Need to add greedy meshing.
 	std::vector<float> chunkMesh;
 
-	//Stores chunks, with the chunk as the key, and the value is their position.
 	//Stores the current chunk the player is in. This keeps from needing each chunk to store its postion.
 	static Chunk& currentChunk;
 
 public:
-	//Chunk(int x, int y, int z);
-	static const unsigned char renderDistance = 5;
+	static const unsigned char renderDistance = 2;
 	static Chunk loadedChunks[renderDistance][renderDistance][renderDistance];
+	Chunk();
 	std::vector<float>& GetChunkMesh();
 	void BuildChunkMesh();
 	void GenerateTestChunk();
