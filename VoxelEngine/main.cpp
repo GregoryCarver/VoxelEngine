@@ -7,16 +7,16 @@
 #include <gtc/type_ptr.hpp>
 #include <iostream>
 
+#include "OpenGL/OpenGLInitializer.h"
 #include "Shaders/Functions/loadShader.h"
 #include "Libraries/stb_image.h"
 #include "Camera.h"
 #include "Input/Input.h"
-//#include "Rendering/Block.h"
 #include "Rendering/Chunk.h"
 
-//Function used to resize the window appropriately.
-void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
-inline void Mouse(GLFWwindow* window, double xPos, double yPos);
+////Function used to resize the window appropriately.
+//void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
+//void Mouse(GLFWwindow* window, double xPos, double yPos);
 
 //Global screen settings.
 const unsigned int SCR_WIDTH = 800;
@@ -142,33 +142,6 @@ int main(void)
 
     delete data;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////TEST 2nd chunk
-
-    //Chunk testChunk1(0, 0, -1);
-
-    //int width2, height2, nrChannels2;
-    //unsigned char* data2 = stbi_load("Assets/Textures/TestTexture.png", &width2, &height2, &nrChannels2, 0);
-    //if (!data2)
-    //{
-    //    std::cout << "Texture not loaded!" << std::endl;
-    //}
-    //unsigned int texture2;
-    //glGenTextures(1, &texture2);
-
-    //glBindTexture(GL_TEXTURE_2D, texture2);
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width2, height2, 0, GL_RGB, GL_UNSIGNED_BYTE, data2);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //glGenerateMipmap(GL_TEXTURE_2D);
-
-    //delete data2;
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////TEST END
-
-
     double previousFPSTime = glfwGetTime();
     int frameCount = 0;
     bool isSorted = false;
@@ -195,9 +168,6 @@ int main(void)
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.5f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-        //Added code
         
 
         //Pass the projection matrix to shader ( in this case could change every frame )
@@ -212,19 +182,11 @@ int main(void)
         glm::mat4 model = glm::mat4(1.0f);
         glUniformMatrix4fv(glGetUniformLocation(programID, "model"), 1, GL_FALSE, &model[0][0]);
         
-        //size / 2 because size is the number of floats there are for textures, and theres two floats per vertex
-        //glBindVertexArray(VAO);
-        //glDrawArrays(GL_TRIANGLES, 0, size);
-
-        //Single renderable test
-        //testChunk0.DrawChunk();
-        //testChunk1.DrawChunk();
+        //Render multiple chunks
         for (int i = 0; i < index; i++)
         {
             chunks[i]->DrawChunk();
         }
-
-        //Added code end
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -238,15 +200,15 @@ int main(void)
     return 0;
 }
 
-//Updates window when changed by OS or user. 
-void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-    //Make sure the viewport matches the new window dimensions.
-    glViewport(0, 0, width, height);
-}
-
-inline void Mouse(GLFWwindow* window, double xPos, double yPos)
-{
-    MouseCallback(window, xPos, yPos, camera);
-}
+////Updates window when changed by OS or user. 
+//void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
+//{
+//    //Make sure the viewport matches the new window dimensions.
+//    glViewport(0, 0, width, height);
+//}
+//
+//void Mouse(GLFWwindow* window, double xPos, double yPos)
+//{
+//    MouseCallback(window, xPos, yPos, camera);
+//}
 

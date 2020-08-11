@@ -222,6 +222,7 @@
     <ClCompile Include="Libraries\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGL\IRenderable.cpp" />
+    <ClCompile Include="OpenGL\OpenGLInitializer.cpp" />
     <ClCompile Include="Rendering\Block.cpp" />
     <ClCompile Include="Rendering\BlockShape.cpp" />
     <ClCompile Include="Rendering\BlockShapes.cpp" />
