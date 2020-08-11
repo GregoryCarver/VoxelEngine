@@ -38,13 +38,7 @@ int main(void)
         return -1;
     }
 
-    //Triangle doesn't show if other 3 are uncommented
-    glfwWindowHint(GLFW_SAMPLES, 4);                                    //4x antialiasing
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                      //OpenGL 3.3
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);      //We don't want the old OpenGL
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    /*       OpenGLtutorials.org tutorial end       */
+    glfwWindowHint(GLFW_SAMPLES, 4);  //4x antialiasing
 
     /* Create a windowed mode window and its OpenGL context */
     GLFWwindow* window;
@@ -87,35 +81,46 @@ int main(void)
 
     ///////TESTING
     //Block cube(BlockShapeIndex::Cube, false);
-    //Chunk testChunk = Chunk();
-    //testChunk.GenerateTestChunk();
-    for (int x = 0; x < Chunk::renderDistance; x++)
+    Chunk* chunks[8];
+    int index = 0;
+    Chunk testChunk0(0, 0, 0);
+    Chunk testChunk1(0, 0, 1);
+    for (int i = 0; i < 2; i++)
     {
-       for (int y = 0; y < Chunk::renderDistance; y++)
+        for (int j = 0; j < 2; j++)
         {
-            for (int z = 0; z < Chunk::renderDistance; z++)
+            for (int k = 0; k < 2; k++)
             {
-                Chunk::loadedChunks[x][y][z].GenerateRandomChunk(x, y, z);
-                Chunk::loadedChunks[x][y][z].BuildChunkMesh();
+                chunks[index++] = new Chunk(i, j, k);
             }
         }
-    } 
-    
-    int size = Chunk::loadedChunks[1][1][1].GetChunkMesh().size() / 5;
-    
-    unsigned int VAO, VBO, VBO2;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, Chunk::loadedChunks[1][1][1].GetChunkMesh().size() * sizeof(float), &Chunk::loadedChunks[1][1][1].GetChunkMesh()[0], GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    /*glGenBuffers(1, &VBO2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO2);*/
-    //glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), newTex, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    }
+
+    //testChunk.GenerateTestChunk();
+    //for (int x = 0; x < Chunk::renderDistance; x++)
+    //{
+    //   for (int y = 0; y < Chunk::renderDistance; y++)
+    //    {
+    //        for (int z = 0; z < Chunk::renderDistance; z++)
+    //        {
+    //            Chunk::loadedChunks[x][y][z].GenerateRandomChunk(x, y, z);
+    //            Chunk::loadedChunks[x][y][z].BuildChunkMesh();
+    //        }
+    //    }
+    //} 
+    //
+    //int size = Chunk::loadedChunks[1][1][1].GetChunkMesh().size() / 5;
+    //
+    //unsigned int VAO, VBO;
+    //glGenVertexArrays(1, &VAO);
+    //glBindVertexArray(VAO);
+    //glGenBuffers(1, &VBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBufferData(GL_ARRAY_BUFFER, Chunk::loadedChunks[1][1][1].GetChunkMesh().size() * sizeof(float), &Chunk::loadedChunks[1][1][1].GetChunkMesh()[0], GL_STATIC_DRAW);
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    //glEnableVertexAttribArray(0);
+    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(1);
     
 
     int width, height, nrChannels;
@@ -136,6 +141,32 @@ int main(void)
     glGenerateMipmap(GL_TEXTURE_2D);
 
     delete data;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////TEST 2nd chunk
+
+    //Chunk testChunk1(0, 0, -1);
+
+    //int width2, height2, nrChannels2;
+    //unsigned char* data2 = stbi_load("Assets/Textures/TestTexture.png", &width2, &height2, &nrChannels2, 0);
+    //if (!data2)
+    //{
+    //    std::cout << "Texture not loaded!" << std::endl;
+    //}
+    //unsigned int texture2;
+    //glGenTextures(1, &texture2);
+
+    //glBindTexture(GL_TEXTURE_2D, texture2);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width2, height2, 0, GL_RGB, GL_UNSIGNED_BYTE, data2);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    //glGenerateMipmap(GL_TEXTURE_2D);
+
+    //delete data2;
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////TEST END
 
 
     double previousFPSTime = glfwGetTime();
@@ -180,14 +211,18 @@ int main(void)
         //Camera view transformation.
         glm::mat4 model = glm::mat4(1.0f);
         glUniformMatrix4fv(glGetUniformLocation(programID, "model"), 1, GL_FALSE, &model[0][0]);
-
-        //glBindVertexArray(cube.GetVAO());
-        //glDrawArraysInstanced(GL_TRIANGLES, 0, 36, cubeGridXCoord * cubeGridYCoord * cubeGridZCoord);
-        //glBindVertexArray(0);
         
         //size / 2 because size is the number of floats there are for textures, and theres two floats per vertex
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, size/* / 2*/);
+        //glBindVertexArray(VAO);
+        //glDrawArrays(GL_TRIANGLES, 0, size);
+
+        //Single renderable test
+        //testChunk0.DrawChunk();
+        //testChunk1.DrawChunk();
+        for (int i = 0; i < index; i++)
+        {
+            chunks[i]->DrawChunk();
+        }
 
         //Added code end
 

@@ -221,6 +221,7 @@
     </ClCompile>
     <ClCompile Include="Libraries\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenGL\IRenderable.cpp" />
     <ClCompile Include="Rendering\Block.cpp" />
     <ClCompile Include="Rendering\BlockShape.cpp" />
     <ClCompile Include="Rendering\BlockShapes.cpp" />
@@ -233,6 +234,8 @@
     <ClInclude Include="Libraries\FastNoise\FastNoiseSIMD.h" />
     <ClInclude Include="Libraries\FastNoise\FastNoiseSIMD_internal.h" />
     <ClInclude Include="Libraries\stb_image.h" />
+    <ClInclude Include="OpenGL\IRenderable.h" />
+    <ClInclude Include="OpenGL\OpenGLInitializer.h" />
     <ClInclude Include="Rendering\Block.h" />
     <ClInclude Include="Rendering\BlockShape.h" />
     <ClInclude Include="Rendering\BlockShapes.h" />
