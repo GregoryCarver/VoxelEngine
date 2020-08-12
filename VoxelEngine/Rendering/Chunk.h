@@ -11,9 +11,6 @@ class Chunk : IRenderable
 	BlockIndex chunkBlocks[chunkDimension][chunkDimension][chunkDimension];
 	//Mesh constructed from the blocks after face culling.:::Need to add greedy meshing.
 	std::vector<float> chunkMesh;
-	//Stores the current chunk the player is in. This keeps from needing each chunk to store its postion.
-	static Chunk& currentChunk;
-
 
 
 public:

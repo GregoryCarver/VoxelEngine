@@ -130,11 +130,12 @@ void Chunk::GenerateTestChunk()
 void Chunk::GenerateRandomChunk(int chunkX, int chunkY, int chunkZ)
 {
 	FastNoiseSIMD* myNoise = FastNoiseSIMD::NewFastNoiseSIMD();
-	float* noiseSet = myNoise->GetSimplexFractalSet(chunkDimension * chunkX, chunkDimension * chunkY, chunkDimension * chunkZ, 
+	float* noiseSet = myNoise->GetPerlinSet(chunkDimension * chunkX, chunkDimension * chunkY, chunkDimension * chunkZ, 
 													chunkDimension * chunkX + chunkDimension, chunkDimension * chunkY + chunkDimension, chunkDimension * chunkZ + chunkDimension);
 	int index = 0;
 	for (int x = 0; x < chunkDimension; x++)
 	{
+		std::cout << noiseSet[index] << std::endl;
 		for (int y = 0; y < chunkDimension; y++)
 		{
 			for (int z = 0; z < chunkDimension; z++)
