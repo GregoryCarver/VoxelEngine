@@ -1,4 +1,23 @@
-﻿  main.cpp
+﻿  Input.cpp
+  IRenderable.cpp
+  OpenGLInitializer.cpp
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(93,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(94,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(98,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(99,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(101,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\OpenGL\OpenGLInitializer.cpp(102,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Block.cpp
+  BlockShape.cpp
+  BlockShapes.cpp
+  Chunk.cpp
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(32,43): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(43,41): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(54,41): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(65,43): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(77,39): warning C4018: '<': signed/unsigned mismatch
+C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\Rendering\Chunk.cpp(88,45): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
 C:\Dev\Visual Studio Projects\VoxelEngine\VoxelEngine\main.cpp(78,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Input.obj : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
