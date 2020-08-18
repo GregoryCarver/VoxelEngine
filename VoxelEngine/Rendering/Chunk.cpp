@@ -1,4 +1,5 @@
 #include <iostream>
+#include <glm.hpp>
 #include "Chunk.h"
 #include "../Libraries/FastNoise/FastNoiseSIMD.h"
 
@@ -25,7 +26,7 @@ void Chunk::BuildChunkMesh(int chunkX, int chunkY, int chunkZ)
 		{
 			for (int k = 0; k < chunkDimension; k++)
 			{
-				if (chunkBlocks[i][j][k] != BlockIndex::TestTransparent)
+				if (chunkBlocks[i][j][k] != BlockIndex::Air)
 				{
 					if (i == 0 || j == 0 || k == 0 || i == chunkDimension - 1 || j == chunkDimension - 1 || k == chunkDimension - 1 || Block::blocks[chunkBlocks[i][j][k + 1]].GetTransparency())
 					{
@@ -100,16 +101,64 @@ void Chunk::BuildChunkMesh(int chunkX, int chunkY, int chunkZ)
 	}
 }
 
-//void Chunk::BuildChunkMesh()
-//{
-//	for (int i = 0; i < 6; i++)
-//	{
-//		for (int z = 0; )
-//		{
-//
-//		}
-//	}
-//}
+void Chunk::BuildGreedyChunkMesh()
+{
+	std::vector<std::pair<glm::vec3, glm::vec3>> chunkParts;
+	unsigned short blockCount = 0;
+	char indexOne = 0;
+	char indexTwo = 0;
+	////////*******These indices may become a loop, to loop throught he slices of the chunk
+	char indexThree = 0;
+	char faceIndex = 0;
+
+	const char startVertXIndex = 0;
+	const char startVertYIndex = 1;
+	const char startVertZIndex = 2;
+	const char endVertXIndex = 25;
+	const char endVertYIndex = 26;
+	const char endVertZIndex = 27;
+
+	////////*******MAY NEED TO DO THIS WITH EVERY FACE SIDE
+	//Iterate through all the blocks in the chunk
+	while (blockCount < (chunkDimension * chunkDimension))
+	{
+		//Starting vertex is bottom left vertex of the first face of the current chunk part.
+		glm::vec3 startVertex;
+		startVertex.x = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][startVertXIndex];
+		startVertex.y = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][startVertYIndex];
+		startVertex.z = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][startVertZIndex];
+		//Ending vertex starts as the top right of the same face as the starting vertex. It will end up being the top right vertex of the last face
+		//of the chunk part. 
+		glm::vec3 endVertex;
+		endVertex.x = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertXIndex];
+		endVertex.y = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertYIndex];
+		endVertex.z = Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertZIndex];
+
+		//While indexOne is not at the end of the current row, and current chunk block is the same as the next, and while the block adjacent to the
+		//next block's face we are checking is transparent
+		//*****************Also need to add chunk border checking, right now just checking for front face adjacent block
+		while (indexOne + 1 < chunkDimension && chunkBlocks[indexOne][indexTwo][indexThree] == chunkBlocks[indexOne + 1][indexTwo][indexThree] &&
+			   Block::blocks[chunkBlocks[indexOne][indexTwo][indexThree + 1]].GetTransparency())
+		{
+			endVertex.x = Block::blocks[chunkBlocks[indexOne + 1][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertXIndex];
+			endVertex.y = Block::blocks[chunkBlocks[indexOne + 1][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertYIndex];
+			endVertex.z = Block::blocks[chunkBlocks[indexOne + 1][indexTwo][indexThree]].GetBlockShape().GetFaces()[faceIndex][endVertZIndex];
+
+			if (++indexOne == chunkDimension)
+			{
+				indexOne = 0;
+
+				/////*****MIGHT NEED THIS instead of just indexTwo++   :   if (++indexTwo == chunkDimension) break;
+				indexTwo++;
+			}
+
+			for (int y = endVertex.y; y < chunkDimension; y++)
+			{
+
+			}
+		}
+	}
+}
 
 //Generates a chunk of dirt to test the chunks.
 void Chunk::GenerateTestChunk()
@@ -135,7 +184,6 @@ void Chunk::GenerateRandomChunk(int chunkX, int chunkY, int chunkZ)
 	int index = 0;
 	for (int x = 0; x < chunkDimension; x++)
 	{
-		std::cout << noiseSet[index] << std::endl;
 		for (int y = 0; y < chunkDimension; y++)
 		{
 			for (int z = 0; z < chunkDimension; z++)
@@ -146,7 +194,7 @@ void Chunk::GenerateRandomChunk(int chunkX, int chunkY, int chunkZ)
 				}
 				else
 				{
-					chunkBlocks[x][y][z] = BlockIndex::TestTransparent;
+					chunkBlocks[x][y][z] = BlockIndex::Air;
 				}
 			}
 		}

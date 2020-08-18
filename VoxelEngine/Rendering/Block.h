@@ -4,7 +4,7 @@
 //Enum so that blocks can be identified by name instead of integers.
 enum BlockIndex
 {
-	TestTransparent = 0,
+	Air = 0,
 	Dirt = 1
 };
 

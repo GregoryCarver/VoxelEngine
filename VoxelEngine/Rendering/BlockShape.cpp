@@ -40,3 +40,8 @@ const std::vector<float>& BlockShape::GetBottomFace() const
 {
 	return faces[FaceIndex::Bottom];
 }
+
+const std::vector<std::vector<float>>& BlockShape::GetFaces() const 
+{
+	return faces;
+}

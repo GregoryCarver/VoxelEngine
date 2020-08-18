@@ -30,4 +30,5 @@ public:
 	const std::vector<float>& GetRightFace() const;
 	const std::vector<float>& GetTopFace() const;
 	const std::vector<float>& GetBottomFace() const;
+	const std::vector<std::vector<float>>& GetFaces() const;
 };

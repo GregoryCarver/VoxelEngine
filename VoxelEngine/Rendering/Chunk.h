@@ -11,7 +11,7 @@ class Chunk : IRenderable
 	BlockIndex chunkBlocks[chunkDimension][chunkDimension][chunkDimension];
 	//Mesh constructed from the blocks after face culling.:::Need to add greedy meshing.
 	std::vector<float> chunkMesh;
-
+	
 
 public:
 	//How far chunks are rendered USED FOR TESTING///////
@@ -21,6 +21,7 @@ public:
 	Chunk(int chunkX, int chunkY, int chunkZ);
 	std::vector<float>& GetChunkMesh();
 	void BuildChunkMesh(int chunkX, int chunkY, int chunkZ);
+	void BuildGreedyChunkMesh();
 	void GenerateTestChunk();
 	void GenerateRandomChunk(int chunkX, int chunkY, int chunkZ);
 	void DrawChunk();

@@ -14,7 +14,7 @@ const BlockShape& Block::GetBlockShape() const
 //Static array that stores the block types.
 const Block Block::blocks[] =
 {
-	//TestTransparent
+	//Air
 	Block(BlockShapeIndex::Cube, true),
 	//Dirt
 	Block(BlockShapeIndex::Cube, false)
