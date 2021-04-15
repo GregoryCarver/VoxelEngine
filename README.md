@@ -1,5 +1,5 @@
 # VoxelEngine
-Voxel Engine created with C++ and OpenGL. 
+Voxel Engine created with C++ and OpenGL, that I work on in my spare time.
 
 Features:
   - 32 x 32 chunks
